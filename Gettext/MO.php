@@ -165,14 +165,19 @@ class File_Gettext_MO extends File_Gettext
             return parent::raiseError($php_errormsg . ' ' . $file);
         }
         
-        // read magic number from MO file header and define endianess
-        $magic = $this->_readInt();
-        if ($magic == (int) 0x950412de) {
-            $be = false;
-        } elseif ($magic == (int) 0xde120495) {
-            $be = true;
-        } else {
-            return parent::raiseError('No GNU mo file: ' . $file);
+        // read (part of) magic number from MO file header and define endianess
+        switch ($magic = array_shift(unpack('c', $this->_read(4))))
+        {
+            case 0x95:
+                $be = false;
+            break;
+            
+            case 0xde:
+                $be = true;
+            break;
+            
+            default:
+                return parent::raiseError('No GNU mo file: ' . $file);
         }
 
         // check file format revision - we currently only support 0
@@ -254,7 +259,11 @@ class File_Gettext_MO extends File_Gettext
         }
         
         // write magic number
-        $this->_writeInt($this->writeBigEndian ? 0xde120495 : 0x950412de);
+        if ($this->writeBigEndian) {
+            $this->_write(pack('c*', 0x95, 0x04, 0x12, 0xde));
+        } else {
+            $this->_write(pack('c*', 0xde, 0x12, 0x04, 0x95));
+        }
         
         // write file format revision
         $this->_writeInt(0);
