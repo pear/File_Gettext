@@ -21,7 +21,7 @@
 * @category     FileFormats
 */
 
-require_once 'PEAR.php';
+ini_set('track_errors', true);
 
 /** 
 * File_Gettext
@@ -70,7 +70,7 @@ class File_Gettext
     /**
     * Factory
     *
-    * @static
+    * @note     This method should be called statically.
     * @access   public
     * @return   object  Returns File_Gettext_PO or File_Gettext_MO on success 
     *                   or PEAR_Error on failure.
@@ -81,7 +81,7 @@ class File_Gettext
     {
         $format = strToUpper($format);
         if (!@include_once 'File/Gettext/' . $format . '.php') {
-            return PEAR::raiseError($php_errormsg);
+            return File_Gettext::raiseError($php_errormsg);
         }
         $class = 'File_Gettext_' . $format;
         return new $class($file);
@@ -93,7 +93,7 @@ class File_Gettext
     * That's a simple fake of the 'msgfmt' console command.  It reads the
     * contents of a GNU PO file and saves them to a GNU MO file.
     * 
-    * @static
+    * @note     This method should be called statically.
     * @access   public
     * @return   mixed   Returns true on success or PEAR_Error on failure.
     * @param    string  $pofile path to GNU PO file
@@ -102,18 +102,18 @@ class File_Gettext
     function poFile2moFile($pofile, $mofile)
     {
         if (!is_file($pofile)) {
-            return PEAR::raiseError("File $pofile doesn't exist.");
+            return File_Gettext::raiseError("File $pofile doesn't exist.");
         }
         
         include_once 'File/Gettext/PO.php';
         
         $PO = &new File_Gettext_PO($pofile);
-        if (PEAR::isError($e = $PO->load())) {
+        if (true !== ($e = $PO->load())) {
             return $e;
         }
         
         $MO = &$PO->toMO();
-        if (PEAR::isError($e = $MO->save($mofile))) {
+        if (true !== ($e = $MO->save($mofile))) {
             return $e;
         }
         unset($PO, $MO);
@@ -124,7 +124,7 @@ class File_Gettext
     /**
     * prepare
     *
-    * @static
+    * @note     This method should be called statically.
     * @access   protected
     * @return   string
     * @param    string  $string
@@ -146,7 +146,7 @@ class File_Gettext
     /**
     * meta2array
     *
-    * @static
+    * @note     This method should be called statically.
     * @access   public
     * @return   array
     * @param    string  $meta
@@ -258,6 +258,21 @@ class File_Gettext
         $PO = &new File_Gettext_PO;
         $PO->fromArray($this->toArray());
         return $PO;
+    }
+    
+    /**
+    * Raise PEAR error
+    *
+    * @note     This method should be called statically.
+    * @access   protected
+    * @return   object
+    * @param    string  $error
+    * @param    int     $code
+    */
+    function raiseError($error = null, $code = null)
+    {
+        include_once 'PEAR.php';
+        return PEAR::raiseError($error, $code);
     }
     
 }
