@@ -141,7 +141,7 @@ class File_Gettext
             $rmap = array('\\"', '\\n"' . "\n" . '"', '\\t', '\\r');
             return (string) str_replace($smap, $rmap, $string);
         } else {
-            $smap = array('/"\s+"/', '/\\\\n/', '/\\\\r/', '/\\\\t/', '/\\"/');
+            $smap = array('/"\s+"/', '/\\\\n/', '/\\\\r/', '/\\\\t/', '/\\\\"/');
             $rmap = array('', "\n", "\r", "\t", '"');
             return (string) preg_replace($smap, $rmap, $string);
         }
