@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- $Revision: 1.1 $ -->
+<package version="1.0">
+ <name>File_Gettext</name>
+ <license>PHP</license>
+ <summary>GNU Gettext file parser</summary>
+ <description>Reader and writer for GNU PO and MO files.</description>
+ <maintainers>
+  <maintainer>
+   <user>mike</user>
+   <name>Michael Wallner</name>
+   <email>mike@php.net</email>
+   <role>lead</role>
+  </maintainer>
+ </maintainers>
+ <release>
+  <version>0.2.0</version>
+  <state>alpha</state>
+  <date>2004-03-30</date>
+  <notes>* Initial PEAR release</notes>
+  <filelist>
+   <dir role="php" name="/" baseinstalldir="File">
+    <file>Gettext.php</file>
+    <dir name="Gettext">
+     <file>MO.php</file>
+     <file>PO.php</file>
+    </dir>
+   </dir>
+  </filelist>
+ </release>
+ <deps>
+  <dep type="pkg" rel="has" optional="no">PEAR</dep>
+  <dep type="ext" rel="has" optional="no">pcre</dep>
+  <dep type="php" rel="ge" optional="no" version="4.1.0" />
+ </deps>
+</package>
