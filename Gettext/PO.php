@@ -61,7 +61,7 @@ class File_Gettext_PO extends File_Gettext
         
         // load file
         if (!$contents = @file($file)) {
-            return PEAR::raiseError($php_errormsg . ' ' . $file);
+            return parent::raiseError($php_errormsg . ' ' . $file);
         }
         $contents = implode('', $contents);
         
@@ -74,7 +74,7 @@ class File_Gettext_PO extends File_Gettext
         unset($contents);
         
         if (!$matched) {
-            return PEAR::raiseError('No msgid/msgstr entries found');
+            return parent::raiseError('No msgid/msgstr entries found');
         }
         
         // get all msgids and msgtrs
@@ -110,12 +110,12 @@ class File_Gettext_PO extends File_Gettext
         
         // open PO file
         if (!is_resource($fh = @fopen($file, 'w'))) {
-            return PEAR::raiseError($php_errormsg . ' ' . $file);
+            return parent::raiseError($php_errormsg . ' ' . $file);
         }
         // lock PO file exclusively
         if (!@flock($fh, LOCK_EX)) {
             @fclose($fh);
-            return PEAR::raiseError($php_errmsg . ' ' . $file);
+            return parent::raiseError($php_errmsg . ' ' . $file);
         }
         
         // write meta info

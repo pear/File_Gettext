@@ -156,12 +156,12 @@ class File_Gettext_MO extends File_Gettext
         
         // open MO file
         if (!is_resource($this->_handle = @fopen($file, 'rb'))) {
-            return PEAR::raiseError($php_errormsg . ' ' . $file);
+            return parent::raiseError($php_errormsg . ' ' . $file);
         }
         // lock MO file shared
         if (!@flock($this->_handle, LOCK_SH)) {
             @fclose($this->_handle);
-            return PEAR::raiseError($php_errormsg . ' ' . $file);
+            return parent::raiseError($php_errormsg . ' ' . $file);
         }
         
         // read magic number from MO file header and define endianess
@@ -171,12 +171,12 @@ class File_Gettext_MO extends File_Gettext
         } elseif ($magic == (int) 0xde120495) {
             $be = true;
         } else {
-            return PEAR::raiseError('No GNU mo file: ' . $file);
+            return parent::raiseError('No GNU mo file: ' . $file);
         }
 
         // check file format revision - we currently only support 0
         if (0 !== ($_rev = $this->_readInt($be))) {
-            return PEAR::raiseError('Invalid file format revision: ' . $_rev);
+            return parent::raiseError('Invalid file format revision: ' . $_rev);
         }
        
         // count of strings in this file
@@ -244,12 +244,12 @@ class File_Gettext_MO extends File_Gettext
         
         // open MO file
         if (!is_resource($this->_handle = @fopen($file, 'wb'))) {
-            return PEAR::raiseError($php_errormsg . ' ' . $file);
+            return parent::raiseError($php_errormsg . ' ' . $file);
         }
         // lock MO file exclusively
         if (!@flock($this->_handle, LOCK_EX)) {
             @fclose($this->_handle);
-            return PEAR::raiseError($php_errormsg . ' ' . $file);
+            return parent::raiseError($php_errormsg . ' ' . $file);
         }
         
         // write magic number
