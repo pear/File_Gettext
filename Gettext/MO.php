@@ -168,16 +168,16 @@ class File_Gettext_MO extends File_Gettext
         // read (part of) magic number from MO file header and define endianess
         switch ($magic = array_shift(unpack('c', $this->_read(4))))
         {
-            case 0x95:
+            case -34:
                 $be = false;
             break;
             
-            case 0xde:
+            case -107:
                 $be = true;
             break;
             
             default:
-                return parent::raiseError('No GNU mo file: ' . $file);
+                return parent::raiseError("No GNU mo file: $file (magic: $magic)");
         }
 
         // check file format revision - we currently only support 0
@@ -299,7 +299,7 @@ class File_Gettext_MO extends File_Gettext
         }
         
         // write offsets for original strings
-        foreach ($strings as $o => $t) {
+        foreach (array_keys($strings) as $o) {
             $len = strlen($o);
             $this->_writeInt($len);
             $this->_writeInt($offset);
@@ -307,7 +307,7 @@ class File_Gettext_MO extends File_Gettext
         }
         
         // write offsets for translated strings
-        foreach ($strings as $o => $t) {
+        foreach ($strings as $t) {
             $len = strlen($t);
             $this->_writeInt($len);
             $this->_writeInt($offset);
@@ -315,12 +315,12 @@ class File_Gettext_MO extends File_Gettext
         }
 
         // write original strings
-        foreach ($strings as $o => $t) {
+        foreach (array_keys($strings) as $o) {
             $this->_writeStr($o);
         }
 
         // write translated strings
-        foreach ($strings as $o => $t) {
+        foreach ($strings as $t) {
             $this->_writeStr($t);
         }
         
