@@ -14,45 +14,46 @@
 // $Id$
 
 /**
-* File::Gettext::PO
-* 
-* @author       Michael Wallner <mike@php.net>
-* @package      File_Gettext
-* @category     FileFormats
-*/
+ * File::Gettext::PO
+ * 
+ * @author      Michael Wallner <mike@php.net>
+ * @license     PHP License
+ * @package     File_Gettext
+ * @category    FileFormats
+ */
 
 require_once 'File/Gettext.php';
 
 /** 
-* File_Gettext_PO
-*
-* GNU PO file reader and writer.
-* 
-* @author   Michael Wallner <mike@php.net>
-* @version  $Revision$
-* @access   public
-*/
+ * File_Gettext_PO
+ *
+ * GNU PO file reader and writer.
+ * 
+ * @author      Michael Wallner <mike@php.net>
+ * @version     $Revision$
+ * @access      public
+ */
 class File_Gettext_PO extends File_Gettext
 {
     /**
-    * Constructor
-    *
-    * @access   public
-    * @return   object      File_Gettext_PO
-    * @param    string      path to GNU PO file
-    */
+     * Constructor
+     *
+     * @access  public
+     * @return  object      File_Gettext_PO
+     * @param   string      path to GNU PO file
+     */
     function File_Gettext_PO($file = '')
     {
         $this->file = $file;
     }
 
     /**
-    * Load PO file
-    *
-    * @access   public
-    * @return   mixed   Returns true on success or PEAR_Error on failure.
-    * @param    string  $file
-    */
+     * Load PO file
+     *
+     * @access  public
+     * @return  mixed   Returns true on success or PEAR_Error on failure.
+     * @param   string  $file
+     */
     function load($file = null)
     {
         if (!isset($file)) {
@@ -96,12 +97,12 @@ class File_Gettext_PO extends File_Gettext
     }
     
     /**
-    * Save PO file
-    *
-    * @access   public
-    * @return   mixed   Returns true on success or PEAR_Error on failure.
-    * @param    string  $file
-    */
+     * Save PO file
+     *
+     * @access  public
+     * @return  mixed   Returns true on success or PEAR_Error on failure.
+     * @param   string  $file
+     */
     function save($file = null)
     {
         if (!isset($file)) {

@@ -14,63 +14,64 @@
 // $Id$
 
 /**
-* File::Gettext::MO
-* 
-* @author       Michael Wallner <mike@php.net>
-* @package      File_Gettext
-* @category     FileFormats
-*/
+ * File::Gettext::MO
+ * 
+ * @author      Michael Wallner <mike@php.net>
+ * @license     PHP License
+ * @package     File_Gettext
+ * @category    FileFormats
+ */
 
 require_once 'File/Gettext.php';
 
 /** 
-* File_Gettext_MO
-* 
-* GNU MO file reader and writer.
-*
-* @author   Michael Wallner <mike@php.net>
-* @version  $Revision$
-* @access   public
-*/
+ * File_Gettext_MO
+ * 
+ * GNU MO file reader and writer.
+ *
+ * @author      Michael Wallner <mike@php.net>
+ * @version     $Revision$
+ * @access      public
+ */
 class File_Gettext_MO extends File_Gettext
 {
     /**
-    * file handle
-    * 
-    * @access   private
-    * @var      resource
-    */
+     * file handle
+     * 
+     * @access  private
+     * @var     resource
+     */
     var $_handle = null;
     
     /**
-    * big endianess
-    * 
-    * Whether to write with big endian byte order.
-    * 
-    * @access   public
-    * @var      bool
-    */
+     * big endianess
+     * 
+     * Whether to write with big endian byte order.
+     * 
+     * @access  public
+     * @var     bool
+     */
     var $writeBigEndian = false;
     
     /**
-    * Constructor
-    *
-    * @access   public
-    * @return   object      File_Gettext_MO
-    * @param    string      $file   path to GNU MO file
-    */
+     * Constructor
+     *
+     * @access  public
+     * @return  object      File_Gettext_MO
+     * @param   string      $file   path to GNU MO file
+     */
     function File_Gettext_MO($file = '')
     {
         $this->file = $file;
     }
 
     /**
-    * _read
-    *
-    * @access   private
-    * @return   mixed
-    * @param    int     $bytes
-    */
+     * _read
+     *
+     * @access  private
+     * @return  mixed
+     * @param   int     $bytes
+     */
     function _read($bytes = 1)
     {
         if (0 < $bytes = abs($bytes)) {
@@ -80,61 +81,61 @@ class File_Gettext_MO extends File_Gettext
     }
     
     /**
-    * _readInt
-    *
-    * @access   private
-    * @return   int
-    * @param    bool    $bigendian
-    */
+     * _readInt
+     *
+     * @access  private
+     * @return  int
+     * @param   bool    $bigendian
+     */
     function _readInt($bigendian = false)
     {
         return array_shift(unpack($bigendian ? 'N' : 'V', $this->_read(4)));
     }
     
     /**
-    * _writeInt
-    *
-    * @access   private
-    * @return   int
-    * @param    int     $int
-    */
+     * _writeInt
+     *
+     * @access  private
+     * @return  int
+     * @param   int     $int
+     */
     function _writeInt($int)
     {
         return $this->_write(pack($this->writeBigEndian ? 'N' : 'V', (int) $int));
     }
     
     /**
-    * _write
-    *
-    * @access   private
-    * @return   int
-    * @param    string  $data
-    */
+     * _write
+     *
+     * @access  private
+     * @return  int
+     * @param   string  $data
+     */
     function _write($data)
     {
         return fwrite($this->_handle, $data);
     }
     
     /**
-    * _writeStr
-    *
-    * @access   private
-    * @return   int
-    * @param    string  $string
-    */
+     * _writeStr
+     *
+     * @access  private
+     * @return  int
+     * @param   string  $string
+     */
     function _writeStr($string)
     {
         return $this->_write($string . "\0");
     }
     
     /**
-    * _readStr
-    *
-    * @access   private
-    * @return   string
-    * @param    array   $params     associative array with offset and length 
-    *                               of the string
-    */
+     * _readStr
+     *
+     * @access  private
+     * @return  string
+     * @param   array   $params     associative array with offset and length 
+     *                              of the string
+     */
     function _readStr($params)
     {
         fseek($this->_handle, $params['offset']);
@@ -142,12 +143,12 @@ class File_Gettext_MO extends File_Gettext
     }
     
     /**
-    * Load MO file
-    *
-    * @access   public
-    * @return   mixed   Returns true on success or PEAR_Error on failure.
-    * @param    string  $file
-    */
+     * Load MO file
+     *
+     * @access   public
+     * @return   mixed   Returns true on success or PEAR_Error on failure.
+     * @param    string  $file
+     */
     function load($file = null)
     {
         if (!isset($file)) {
@@ -230,12 +231,12 @@ class File_Gettext_MO extends File_Gettext
     }
     
     /**
-    * Save MO file
-    *
-    * @access   public
-    * @return   mixed   Returns true on success or PEAR_Error on failure.
-    * @param    string  $file
-    */
+     * Save MO file
+     *
+     * @access  public
+     * @return  mixed   Returns true on success or PEAR_Error on failure.
+     * @param   string  $file
+     */
     function save($file = null)
     {
         if (!isset($file)) {
