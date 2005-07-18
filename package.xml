@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
-<!-- $Revision: 1.5 $ -->
+<!-- $Revision: 1.6 $ -->
 <package version="1.0">
  <name>File_Gettext</name>
  <license>PHP</license>
@@ -14,11 +14,11 @@
   </maintainer>
  </maintainers>
  <release>
-  <version>0.3.3</version>
+  <version>0.3.4</version>
   <state>beta</state>
-  <date>2004-12-29</date>
+  <date>2005-07-18</date>
   <notes>
-* Fixed Bug #3044 (double quotes in PO file strings not properly un/escaped)
+* Fixed PHP 4.4 compatibility
   </notes>
   <filelist>
    <dir role="php" name="/" baseinstalldir="File">
