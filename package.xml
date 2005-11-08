@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
-<!-- $Revision: 1.7 $ -->
+<!-- $Revision: 1.8 $ -->
 <package version="1.0">
  <name>File_Gettext</name>
  <license>PHP</license>
@@ -18,7 +18,8 @@
   <state>beta</state>
   <date>2005-11-00</date>
   <notes>
-* Fixed bug #5712
+* Fixed bug #5712 - only variables can be passed by reference
+* Changed license to BSD
   </notes>
   <filelist>
    <dir role="php" name="/" baseinstalldir="File">
