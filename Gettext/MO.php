@@ -147,6 +147,8 @@ class File_Gettext_MO extends File_Gettext
      */
     function load($file = null)
     {
+        $this->strings = array();
+        
         if (!isset($file)) {
             $file = $this->file;
         }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
-<!-- $Revision: 1.8 $ -->
+<!-- $Revision: 1.9 $ -->
 <package version="1.0">
  <name>File_Gettext</name>
  <license>PHP</license>
@@ -14,12 +14,12 @@
   </maintainer>
  </maintainers>
  <release>
-  <version>0.4.0</version>
+  <version>0.4.1</version>
   <state>beta</state>
-  <date>2005-11-00</date>
-  <notes>
-* Fixed bug #5712 - only variables can be passed by reference
-* Changed license to BSD
+  <date>2006-00-00</date>
+  <notes><![CDATA[
+* Fixed Bug #6426 - load() should empty $this->strings
+]]>
   </notes>
   <filelist>
    <dir role="php" name="/" baseinstalldir="File">
