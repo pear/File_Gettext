@@ -1,40 +1,209 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
-<!-- $Revision: 1.9 $ -->
-<package version="1.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.7.0RC1" version="2.0"
+ xmlns="http://pear.php.net/dtd/package-2.0"
+ xmlns:tasks="http://pear.php.net/dtd/tasks-1.0"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+ http://pear.php.net/dtd/tasks-1.0.xsd
+ http://pear.php.net/dtd/package-2.0
+ http://pear.php.net/dtd/package-2.0.xsd"
+>
  <name>File_Gettext</name>
- <license>PHP</license>
+ <channel>pear.php.net</channel>
  <summary>GNU Gettext file parser</summary>
- <description>Reader and writer for GNU PO and MO files.</description>
- <maintainers>
-  <maintainer>
-   <user>mike</user>
-   <name>Michael Wallner</name>
-   <email>mike@php.net</email>
-   <role>lead</role>
-  </maintainer>
- </maintainers>
- <release>
-  <version>0.4.1</version>
-  <state>beta</state>
-  <date>2006-00-00</date>
-  <notes><![CDATA[
-* Fixed Bug #6426 - load() should empty $this->strings
-]]>
-  </notes>
-  <filelist>
-   <dir role="php" name="/" baseinstalldir="File">
-    <file role="doc">LICENSE</file>
-    <file>Gettext.php</file>
-    <dir name="Gettext">
-     <file>MO.php</file>
-     <file>PO.php</file>
-    </dir>
+ <description>
+  Reader and writer for GNU PO and MO files.
+ </description>
+ <lead>
+  <name>Michael Wallner</name>
+  <user>mike</user>
+  <email>mike@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2007-12-02</date>
+ <time>16:00:50</time>
+ <version>
+  <release>0.4.1</release>
+  <api>0.4.1</api>
+ </version>
+ <stability>
+  <release>beta</release>
+  <api>beta</api>
+ </stability>
+ <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
+
+ <notes>
+ * Fixed Bug #6426 - load() should empty $this-&gt;strings
+ QA release:
+ * Fix bug #12570: license in package.xml (was listed as PHP, but is BSD)
+ </notes>
+
+ <contents>
+  <dir name="/">
+   <dir name="Gettext">
+    <file baseinstalldir="File" name="MO.php" role="php" />
+    <file baseinstalldir="File" name="PO.php" role="php" />
    </dir>
-  </filelist>
- </release>
- <deps>
-  <dep type="pkg" rel="has" optional="no">PEAR</dep>
-  <dep type="ext" rel="has" optional="no">pcre</dep>
-  <dep type="php" rel="ge" optional="no" version="4.1.0" />
- </deps>
+   <file baseinstalldir="File" name="Gettext.php" role="php" />
+   <file baseinstalldir="File" name="LICENSE" role="doc" />
+  </dir>
+ </contents>
+
+ <dependencies>
+  <required>
+   <php>
+    <min>4.1.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0b1</min>
+   </pearinstaller>
+   <package>
+    <name>PEAR</name>
+    <channel>pear.php.net</channel>
+   </package>
+   <extension>
+    <name>pcre</name>
+   </extension>
+  </required>
+ </dependencies>
+
+ <phprelease />
+
+ <changelog>
+
+  <release>
+   <version>
+    <release>0.4.1</release>
+    <api>0.4.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2007-12-02</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
+   <notes>
+ * Fixed Bug #6426 - load() should empty $this-&gt;strings
+ QA release:
+ * Fix bug #12570: license in package.xml (was listed as PHP, but is BSD)
+ * Convert package.xml to version 2
+   </notes>
+  </release>
+
+  <release>
+   <version>
+    <release>0.4.0</release>
+    <api>0.4.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2005-11-14</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
+   <notes>
+* Fixed bug #5712 - only variables can be passed by reference
+* Changed license to BSD
+   </notes>
+  </release>
+
+  <release>
+   <version>
+    <release>0.3.4</release>
+    <api>0.3.4</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2005-07-18</date>
+   <license uri="http://www.php.net/license/3_01.txt">PHP</license>
+   <notes>
+* Fixed PHP 4.4 compatibility
+   </notes>
+  </release>
+
+  <release>
+   <version>
+    <release>0.3.3</release>
+    <api>0.3.3</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2004-12-29</date>
+   <license uri="http://www.php.net/license/3_01.txt">PHP</license>
+   <notes>
+* Fixed Bug #3044 (double quotes in PO file strings not properly un/escaped)
+   </notes>
+  </release>
+
+  <release>
+   <version>
+    <release>0.3.2</release>
+    <api>0.3.2</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2004-12-06</date>
+   <license uri="http://www.php.net/license/3_01.txt">PHP</license>
+   <notes>
+* Fixed handling of magic number (corrupt MO files)
+   </notes>
+  </release>
+
+  <release>
+   <version>
+    <release>0.3.1</release>
+    <api>0.3.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2004-12-06</date>
+   <license uri="http://www.php.net/license/3_01.txt">PHP</license>
+   <notes>
+* Fixed handling of magic number (corrupt MO files with PHP5)
+   </notes>
+  </release>
+
+  <release>
+   <version>
+    <release>0.3.0</release>
+    <api>0.3.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2004-04-29</date>
+   <license uri="http://www.php.net/license/3_01.txt">PHP</license>
+   <notes>
+* Moved package state to BETA
+* Do not include PEAR.php by default
+* Added File_Gettext::raiseError() which includes PEAR.php
+   </notes>
+  </release>
+
+  <release>
+   <version>
+    <release>0.2.0</release>
+    <api>0.2.0</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2004-03-30</date>
+   <license uri="http://www.php.net/license/3_01.txt">PHP</license>
+   <notes>
+* Initial PEAR release
+   </notes>
+  </release>
+
+ </changelog>
 </package>
