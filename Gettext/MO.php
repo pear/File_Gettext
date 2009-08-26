@@ -135,7 +135,9 @@ class File_Gettext_MO extends File_Gettext
     }
 
     /**
-     * _readStr
+     * Reads a series of one or more null-terminated strings from a given
+     * location in the source file. Note that MO files optimize plural pairs
+     * by storing them together under the same index entry.
      *
      * @param array $params associative array with offset and length
      *                              of the string
@@ -143,10 +145,11 @@ class File_Gettext_MO extends File_Gettext
      * @access  private
      * @return  string
      */
-    function _readStr($params)
+    function _readStrings($params)
     {
         fseek($this->_handle, $params['offset']);
-        return $this->_read($params['length']);
+        $strings = $this->_read($params['length']);
+        return explode("\x00", $strings);
     }
 
     /**
@@ -227,8 +230,12 @@ class File_Gettext_MO extends File_Gettext
 
         // read all
         for ($i = 0; $i < $count; $i++) {
-            $this->strings[$this->_readStr($original[$i])] =
-                $this->_readStr($translat[$i]);
+            $pairs = array_combine(
+                $this->_readStrings($original[$i]),
+                $this->_readStrings($translat[$i]));
+            foreach ($pairs as $origStr => $translatedStr) {
+                $this->strings[$origStr] = $translatedStr;
+            }
         }
 
         // done
