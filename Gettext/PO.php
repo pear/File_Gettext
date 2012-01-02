@@ -70,8 +70,8 @@ class File_Gettext_PO extends File_Gettext
         $contents = implode('', $contents);
 
         // match all msgid/msgstr entries
-        $matched = preg_match_all('/(msgid\s+("([^"]|\\\\")*?"\s*)+)\s+' .
-                                  '(msgstr\s+("([^"]|\\\\")*?"\s*)+)/',
+        $matched = preg_match_all('/msgid\s+((?:".*(?<!\\\\)"\s*)+)\s+' .
+                                  'msgstr\s+((?:".*(?<!\\\\)"\s*)+)/',
                                   $contents, $matches);
         unset($contents);
 
@@ -81,13 +81,8 @@ class File_Gettext_PO extends File_Gettext
 
         // get all msgids and msgtrs
         for ($i = 0; $i < $matched; $i++) {
-            $msgid = preg_replace('/\s*msgid\s*"(.*)"\s*/s',
-                                  '\\1',
-                                  $matches[1][$i]);
-
-            $msgstr = preg_replace('/\s*msgstr\s*"(.*)"\s*/s',
-                                   '\\1',
-                                   $matches[4][$i]);
+            $msgid = substr(rtrim($matches[1][$i]), 1, -1);
+            $msgstr = substr(rtrim($matches[2][$i]), 1, -1);
 
             $this->strings[parent::prepare($msgid)] = parent::prepare($msgstr);
         }
