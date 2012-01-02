@@ -309,8 +309,10 @@ class File_Gettext_MO extends File_Gettext
             $file = $this->file;
         }
 
+        $tmpfile = $file . "." . getmypid();
+
         // open MO file
-        if (!is_resource($this->_handle = @fopen($file, 'wb'))) {
+        if (!is_resource($this->_handle = @fopen($tmpfile, 'wb'))) {
             return parent::raiseError($php_errormsg . ' ' . $file);
         }
         // lock MO file exclusively
@@ -421,6 +423,9 @@ class File_Gettext_MO extends File_Gettext
         // done
         @flock($this->_handle, LOCK_UN);
         @fclose($this->_handle);
+
+        @rename($tmpfile, $file);
+        @unlink($tmpfile);
         return true;
     }
 }
