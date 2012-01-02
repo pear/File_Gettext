@@ -252,6 +252,49 @@ class File_Gettext_MO extends File_Gettext
         return true;
     }
 
+    private function _hashpjw($str_param)
+    {
+        $hval = 0;
+        for($i = 0; $i<strlen($str_param); $i++)
+        {
+            $hval <<= 4;
+            $hval += ord($str_param[$i]);
+            $g = $hval & 0xf << 28; // $HASHWORDBITS - 4
+            if ($g != 0) {
+                $hval ^= $g >> 24; // $HASHWORDBITS - 8
+                $hval ^= $g;
+            }
+        }
+        return $hval;
+    }
+
+    private function _is_prime ($candidate)
+    {
+        /* No even number and none less than 10 will be passed here.  */
+        $divn = 3;
+        $sq = $divn * $divn;
+
+        while ($sq < $candidate && $candidate % $divn != 0)
+        {
+            ++$divn;
+            $sq += 4 * $divn;
+            ++$divn;
+        }
+
+        return $candidate % $divn != 0;
+    }
+
+    private function _next_prime($seed)
+    {
+        /* Make it definitely odd.  */
+        $seed |= 1;
+
+        while (!self::_is_prime ($seed))
+            $seed += 2;
+
+        return $seed;
+    }
+
     /**
      * Save MO file
      *
@@ -290,6 +333,11 @@ class File_Gettext_MO extends File_Gettext
         // write count of strings
         $this->_writeInt($count);
 
+        $hash_tab_size = self::_next_prime (($count * 4) / 3);
+        /* Ensure M > 2.  */
+        if ($hash_tab_size <= 2)
+            $hash_tab_size = 3;
+
         $offset = 28;
         // write offset of orig. strings hash table
         $this->_writeInt($offset);
@@ -299,11 +347,13 @@ class File_Gettext_MO extends File_Gettext
         $this->_writeInt($offset);
 
         // write size of hash table (we currently ommit the hash table)
-        $this->_writeInt(0);
+        $this->_writeInt($hash_tab_size); // orig: 0
 
         $offset += ($count * 8);
         // write offset of hash table
         $this->_writeInt($offset);
+
+        $offset += ($hash_tab_size * 4);
 
         // unshift meta info
         if ($meta) {
@@ -314,6 +364,27 @@ class File_Gettext_MO extends File_Gettext
             $strings = array('' => $meta) + $this->strings;
         } else {
             $strings = $this->strings;
+        }
+
+        $hash_tab = array();
+        $j = 0;
+        foreach ($strings as $key => $value)
+        {
+            $hash_val = self::_hashpjw($key);
+            $idx = $hash_val % $hash_tab_size;
+            if (!empty($hash_tab[$idx]))
+            {
+                $incr = 1 + ($hash_val % ($hash_tab_size - 2));
+                do
+                    if ($idx >= $hash_tab_size - $incr)
+                        $idx -= $hash_tab_size - $incr;
+                    else
+                        $idx += $incr;
+                while (!empty($hash_tab[$idx]));
+            }
+
+            $hash_tab[$idx] = $j + 1;
+            $j++;
         }
 
         // write offsets for original strings
@@ -330,6 +401,11 @@ class File_Gettext_MO extends File_Gettext
             $this->_writeInt($len);
             $this->_writeInt($offset);
             $offset += $len + 1;
+        }
+
+        for ($j = 0; $j < $hash_tab_size; $j++) {
+            if (empty($hash_tab[$j])) $this->_writeInt(0);
+            else $this->_writeInt($hash_tab[$j]);
         }
 
         // write original strings
