@@ -252,14 +252,21 @@ class File_Gettext_MO extends File_Gettext
         return true;
     }
 
+    /**
+     * Implements a string hashing function
+     *
+     * @param string $str_param String to hash
+     *
+     * @access   private
+     * @return   int
+     */
     private function _hashpjw($str_param)
     {
         $hval = 0;
-        for($i = 0; $i<strlen($str_param); $i++)
-        {
+        for ($i = 0; $i<strlen($str_param); $i++) {
             $hval <<= 4;
             $hval += ord($str_param[$i]);
-            $g = $hval & 0xf << 28; // $HASHWORDBITS - 4
+            $g     = $hval & 0xf << 28; // $HASHWORDBITS - 4
             if ($g != 0) {
                 $hval ^= $g >> 24; // $HASHWORDBITS - 8
                 $hval ^= $g;
@@ -268,14 +275,21 @@ class File_Gettext_MO extends File_Gettext
         return $hval;
     }
 
-    private function _is_prime ($candidate)
+    /**
+     * Given an odd CANDIDATE > 1, return true if it is a prime number
+     *
+     * @param int $candidate number to check
+     *
+     * @access   private
+     * @return   int
+     */
+    private function _isPrime($candidate)
     {
         /* No even number and none less than 10 will be passed here.  */
         $divn = 3;
-        $sq = $divn * $divn;
+        $sq   = $divn * $divn;
 
-        while ($sq < $candidate && $candidate % $divn != 0)
-        {
+        while ($sq < $candidate && $candidate % $divn != 0) {
             ++$divn;
             $sq += 4 * $divn;
             ++$divn;
@@ -284,13 +298,22 @@ class File_Gettext_MO extends File_Gettext
         return $candidate % $divn != 0;
     }
 
-    private function _next_prime($seed)
+    /**
+     * Given SEED > 1, return the smallest odd prime number >= SEED
+     *
+     * @param int $seed next prime number
+     *
+     * @access   private
+     * @return   int
+     */
+    private function _nextPrime($seed)
     {
         /* Make it definitely odd.  */
         $seed |= 1;
 
-        while (!self::_is_prime ($seed))
+        while (!self::_isPrime($seed)) {
             $seed += 2;
+        }
 
         return $seed;
     }
@@ -335,10 +358,11 @@ class File_Gettext_MO extends File_Gettext
         // write count of strings
         $this->_writeInt($count);
 
-        $hash_tab_size = self::_next_prime (($count * 4) / 3);
+        $hash_tab_size = self::_nextPrime(($count * 4) / 3);
         /* Ensure M > 2.  */
-        if ($hash_tab_size <= 2)
+        if ($hash_tab_size <= 2) {
             $hash_tab_size = 3;
+        }
 
         $offset = 28;
         // write offset of orig. strings hash table
@@ -369,20 +393,19 @@ class File_Gettext_MO extends File_Gettext
         }
 
         $hash_tab = array();
-        $j = 0;
-        foreach ($strings as $key => $value)
-        {
+        $j        = 0;
+        foreach ($strings as $key => $value) {
             $hash_val = self::_hashpjw($key);
-            $idx = $hash_val % $hash_tab_size;
-            if (!empty($hash_tab[$idx]))
-            {
+            $idx      = $hash_val % $hash_tab_size;
+            if (!empty($hash_tab[$idx])) {
                 $incr = 1 + ($hash_val % ($hash_tab_size - 2));
-                do
-                    if ($idx >= $hash_tab_size - $incr)
+                do {
+                    if ($idx >= $hash_tab_size - $incr) {
                         $idx -= $hash_tab_size - $incr;
-                    else
+                    } else {
                         $idx += $incr;
-                while (!empty($hash_tab[$idx]));
+                    }
+                } while (!empty($hash_tab[$idx]));
             }
 
             $hash_tab[$idx] = $j + 1;
@@ -406,8 +429,11 @@ class File_Gettext_MO extends File_Gettext
         }
 
         for ($j = 0; $j < $hash_tab_size; $j++) {
-            if (empty($hash_tab[$j])) $this->_writeInt(0);
-            else $this->_writeInt($hash_tab[$j]);
+            if (empty($hash_tab[$j])) {
+                $this->_writeInt(0);
+            } else {
+                $this->_writeInt($hash_tab[$j]);
+            }
         }
 
         // write original strings
