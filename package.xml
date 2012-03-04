@@ -11,9 +11,9 @@
   <active>yes</active>
  </lead>
  <date>2012-03-04</date>
- <time>13:28:57</time>
+ <time>13:30:06</time>
  <version>
-  <release>0.4.1</release>
+  <release>0.4.2</release>
   <api>0.4.1</api>
  </version>
  <stability>
@@ -22,9 +22,8 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
  <notes>
-* Fixed Bug #6426 - load() should empty $this-&gt;strings
-QA release:
-* Fix bug #12570: license in package.xml (was listed as PHP, but is BSD)
+QA release
+Bug #18562 hash table support
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -177,6 +176,22 @@ QA release:
 * Fixed Bug #6426 - load() should empty $this-&gt;strings
 QA release:
 * Fix bug #12570: license in package.xml (was listed as PHP, but is BSD)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.4.2</release>
+    <api>0.4.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2012-03-04</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
+   <notes>
+QA release
+Bug #18562 hash table support
    </notes>
   </release>
  </changelog>
