@@ -8,7 +8,7 @@
     ],
     "autoload": {
         "psr-0": {
-            "File_Gettext": "./"
+            "File": "./"
         }
     },
     "description": "More info available on: http://pear.php.net/package/File_Gettext",
@@ -23,7 +23,8 @@
     },
     "type": "library",
     "require": {
-        "pear/pear_exception": "*"
+        "pear/pear_exception": "*",
+        "pear/pear": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "*"
